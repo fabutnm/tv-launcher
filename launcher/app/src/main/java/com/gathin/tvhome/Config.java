@@ -41,6 +41,13 @@ final class Config {
     static final String WALLPAPER_CHOICE_KEY = "wallpaper_choice";
     static final String DOCK_OPACITY_KEY = "dock_opacity";
     static final String THEME_REVISION_NAME = "theme_revision";
+    /** Launcher settings' look-and-feel switches (see load()); kept across theme changes. */
+    static final String CINEMATIC_KEY = "cinematic_home", TRUE_COLOR_KEY = "wallpaper_true_color",
+            ALL_NAMES_KEY = "always_show_names", LIBRARY_KEY = "app_library", SKY_KEY = "sky",
+            IDLE_CLOCK_KEY = "home_idle_clock_minutes";
+    static final String[] FEATURE_KEYS = {CINEMATIC_KEY, TRUE_COLOR_KEY, ALL_NAMES_KEY, LIBRARY_KEY, SKY_KEY, IDLE_CLOCK_KEY};
+    /** Sky opacity when it is switched on in Launcher settings and the theme gives none. */
+    static final int SKY_DEFAULT = 60;
     private static final String THEME_SIGNATURE_KEY = "theme_signature";
 
     final List<String> dockApps;
@@ -413,6 +420,17 @@ final class Config {
         if (chosenRows >= 0 && chosenRows <= 3) rowsBelow = chosenRows;
         animations = choices.getBoolean("animations", animations);
         advancedEffects = choices.getBoolean("advanced_effects", advancedEffects);
+        // Look-and-feel switches from Launcher settings. Personal choices: unlike the layout ones above, a theme
+        // change keeps them; only Follow theme clears them (FEATURE_KEYS).
+        cinematic = choices.getBoolean(CINEMATIC_KEY, cinematic);
+        wallpaperTrueColor = choices.getBoolean(TRUE_COLOR_KEY, wallpaperTrueColor);
+        alwaysShowNames = choices.getBoolean(ALL_NAMES_KEY, alwaysShowNames);
+        library = choices.getBoolean(LIBRARY_KEY, library);
+        if (choices.contains(SKY_KEY)) {
+            skyIntensity = choices.getBoolean(SKY_KEY, false) ? (skyIntensity > 0 ? skyIntensity : SKY_DEFAULT) : 0;
+        }
+        int chosenClock = choices.getInt(IDLE_CLOCK_KEY, -1);
+        if (chosenClock >= 0 && chosenClock <= 1440) idleClockMinutes = chosenClock;
         File wallpaper = dir != null ? new File(dir, WALLPAPER_NAME) : null;
         if (wallpaper != null && !(wallpaper.isFile() && wallpaper.length() > 0)) wallpaper = null;
         // A theme can also switch the wallpaper off while the file is still there.

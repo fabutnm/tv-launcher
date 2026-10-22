@@ -71,6 +71,15 @@
     <string name="quick_network">Network</string>
     <string name="quick_apps">Apps</string>
     <string name="quick_apps_hint">Re-enable</string>
+    <string name="features_label">Look and feel</string>
+    <string name="feature_state">%1$s: %2$s</string>
+    <string name="feature_cinematic">Cinematic top shelf</string>
+    <string name="feature_sky">Time-of-day sky</string>
+    <string name="feature_true_color">Full-colour wallpapers</string>
+    <string name="feature_all_names">Names under every tile</string>
+    <string name="feature_library">App library</string>
+    <string name="feature_clock">Clock when idle on Home</string>
+    <string name="feature_minutes">after %1$d min</string>
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="enable">Enable</string>

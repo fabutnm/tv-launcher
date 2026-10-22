@@ -29,6 +29,8 @@ pushes it; it is only here so you can see a theme before you try it.
 Every key is optional; a missing key keeps the value from `config.xml`, an unknown or wrongly typed key
 is ignored, and a file that doesn't parse is ignored as a whole, so a theme can never break Home.
 
+> Launcher settings > Оформление can switch cinematic_home, sky_intensity (on at 60), wallpaper_true_color, always_show_names, app_library and home_idle_clock_minutes (Off, 5, 10, 30) on the TV. Those choices win over the theme and stay when the theme changes; Follow theme clears them.
+
 | Key | Type | Meaning |
 |---|---|---|
 | `dock_apps` | list of package names | The dock row, in order; missing apps are skipped |

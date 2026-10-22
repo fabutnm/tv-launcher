@@ -28,6 +28,7 @@ public final class LauncherSettingsActivity extends Activity {
     private TextView animationsChoice;
     private TextView advancedChoice;
     private TextView followThemeChoice;
+    private static final int[] CLOCK_MINUTES = {0, 5, 10, 30};
     private int columns;
     private int rowsBelowDock;
     private int dockOpacity;
@@ -122,12 +123,22 @@ public final class LauncherSettingsActivity extends Activity {
                         .show();
             }
         });
+        LinearLayout features = findViewById(R.id.featureRows);
+        addSwitch(features, R.string.feature_cinematic, Config.CINEMATIC_KEY, config.cinematicHome);
+        addSwitch(features, R.string.feature_sky, Config.SKY_KEY, config.skyIntensity > 0);
+        addSwitch(features, R.string.feature_true_color, Config.TRUE_COLOR_KEY, config.wallpaperTrueColor);
+        addSwitch(features, R.string.feature_all_names, Config.ALL_NAMES_KEY, config.alwaysShowNames);
+        addSwitch(features, R.string.feature_library, Config.LIBRARY_KEY, config.appLibrary);
+        addClockRow(features, config.homeIdleClockMinutes);
         followThemeChoice = findViewById(R.id.followThemeChoice);
         followThemeChoice.setOnClickListener(v -> {
             if (!hasOnTvChoices()) return;
             choices.edit().remove("columns").remove(Config.ROWS_BELOW_DOCK_KEY).remove("animations")
                     .remove("advanced_effects").remove(Config.WALLPAPER_CHOICE_KEY)
                     .remove(Config.DOCK_OPACITY_KEY).commit();
+            SharedPreferences.Editor clear = choices.edit();
+            for (String key : Config.FEATURE_KEYS) clear.remove(key);
+            clear.commit();
             Config current = Config.load(this);
             columns = current.columns;
             rowsBelowDock = current.rowsBelowDock;
@@ -135,7 +146,7 @@ public final class LauncherSettingsActivity extends Activity {
             animations = current.animations;
             advancedEffects = current.animations && current.advancedEffects;
             setResult(RESULT_OK);
-            refresh();
+            recreate();   // the switch rows show the theme's values again
         });
         findViewById(R.id.defaultHomeChoice).setOnClickListener(v -> {
             Toast.makeText(this, R.string.home_settings_help, Toast.LENGTH_LONG).show();
@@ -146,6 +157,50 @@ public final class LauncherSettingsActivity extends Activity {
         refresh();
         if (config.launcherSettingsButton) reorderChoice.requestFocus();
         else columnChoices[Math.max(0, Math.min(columns - 4, 3))].requestFocus();
+    }
+
+    /** One On/Off row for a look-and-feel switch; saved at once, Home rebuilds when settings close. */
+    private void addSwitch(LinearLayout parent, int label, String key, boolean initial) {
+        TextView row = settingsRow(parent);
+        boolean[] value = {choices.getBoolean(key, initial)};
+        Runnable show = () -> row.setText(getString(R.string.feature_state, getString(label),
+                getString(value[0] ? R.string.on : R.string.off)));
+        row.setOnClickListener(v -> {
+            value[0] = !value[0];
+            choices.edit().putBoolean(key, value[0]).apply();
+            setResult(RESULT_OK);
+            show.run();
+            refresh();
+        });
+        show.run();
+    }
+
+    /** The idle clock on Home: Off, 5, 10 or 30 minutes; each press steps to the next. */
+    private void addClockRow(LinearLayout parent, int initial) {
+        TextView row = settingsRow(parent);
+        int[] minutes = {choices.getInt(Config.IDLE_CLOCK_KEY, initial)};
+        Runnable show = () -> row.setText(getString(R.string.feature_state, getString(R.string.feature_clock),
+                minutes[0] == 0 ? getString(R.string.off) : getString(R.string.feature_minutes, minutes[0])));
+        row.setOnClickListener(v -> {
+            int next = CLOCK_MINUTES[1];
+            for (int i = 0; i < CLOCK_MINUTES.length; i++) {
+                if (CLOCK_MINUTES[i] == minutes[0]) next = CLOCK_MINUTES[(i + 1) % CLOCK_MINUTES.length];
+            }
+            minutes[0] = next;
+            choices.edit().putInt(Config.IDLE_CLOCK_KEY, next).apply();
+            setResult(RESULT_OK);
+            show.run();
+            refresh();
+        });
+        show.run();
+    }
+
+    private TextView settingsRow(LinearLayout parent) {
+        TextView row = (TextView) getLayoutInflater().inflate(R.layout.settings_row, parent, false);
+        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) row.getLayoutParams();
+        lp.topMargin = Math.round(10 * getResources().getDisplayMetrics().density);
+        parent.addView(row);
+        return row;
     }
 
     private void reverseRow(TextView[] views) {
@@ -274,6 +329,7 @@ public final class LauncherSettingsActivity extends Activity {
     }
 
     private boolean hasOnTvChoices() {
+        for (String key : Config.FEATURE_KEYS) if (choices.contains(key)) return true;
         return choices.contains("columns") || choices.contains(Config.ROWS_BELOW_DOCK_KEY)
                 || choices.contains("animations") || choices.contains("advanced_effects")
                 || choices.contains(Config.WALLPAPER_CHOICE_KEY) || choices.contains(Config.DOCK_OPACITY_KEY);
