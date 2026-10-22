@@ -21,8 +21,8 @@ git merge upstream/main
 - **Своя нумерация версий** (1.0, основана на cleanyourtv 2.6) и подпись релизным ключом из
   `~/.gradle/gradle.properties` (`RELEASE_STORE_FILE`, `RELEASE_STORE_PASSWORD`, `RELEASE_KEY_ALIAS`,
   `RELEASE_KEY_PASSWORD`). Без них сборка подписывается отладочным ключом.
-- **Папка [`tcl-p725/`](tcl-p725/README.md):** список отключённых пакетов, скрипты установки, восстановления и
-  библиотека тем для этого телевизора.
+- **Папки [`tcl-p725/`](tcl-p725/README.md) и [`tcl-c845/`](tcl-c845/README.md)** (TCL C845, Google TV G05):
+  списки отключённых пакетов, скрипты установки, восстановления и библиотеки тем для каждого телевизора.
 
 ## Готовый APK
 

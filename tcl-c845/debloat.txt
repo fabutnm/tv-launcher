@@ -1,0 +1,50 @@
+# TCL C845 (living room; "Smart TV Pro", device G05, product G05_4K_GB, board C05, MediaTek), Google TV on
+# Android 11 (SDK 30), fingerprint TCL/G05_4K_GB/G05:11/AR2101/AR28, software V8-T615T03-LF1V620, 2.7 GB RAM, Wi-Fi.
+# Closest lists: examples/tcl-g05-google-tv (same board, US firmware) and docs/devices/tcl-55c728-g05-4k-gb.md
+# (same G05_4K_GB / AR28 build).
+#
+# Before this session: launcherx (stock Google TV home), setupwraith, dreamx, logkit and some region apps were
+# already disabled; Projectivy was Home. The saved Wi-Fi belongs to the system, not setupwraith.
+#
+# Apply:   tools\disable.ps1 -TvHost <tv ip> tcl-c845\debloat.txt   (or one group at a time, screenshot between)
+# Everything is DISABLED, never uninstalled.
+# Re-enabled by the firmware at every boot (seen after one reboot, left as it is): com.tcl.notereminder.
+# setupwraith and launcherx stayed disabled across that reboot, as in docs/devices/tcl-55c728-g05-4k-gb.md.
+#
+# Kept on purpose: com.tcl.tv com.tcl.tvinput (Live TV, HDMI), com.tcl.suspension (Input key / Quick Panel),
+# com.tcl.system.server com.tcl.keyhelp com.tcl.autopair com.tcl.tcl_bt_rcu_service (remote),
+# com.tcl.providers.config com.tcl.initsetup com.tcl.factory.view, com.tcl.settings, keyboards, Play Store/Services.
+# Owner's choice, kept: Chromecast (mediashell), AirPlay (tcl.airplay2, mediatek.AirplayAPK), voice (katniss,
+# tv.assistant, micmanager, eva), Miracast and T-Cast, firmware/remote updates (com.tcl.ttvs, which also carries
+# TCL's BI analytics, and com.tcl.UpdatePeripheral). Unclear, left alone: com.tcl.hearaid, com.tcl.t_solo.
+
+# Group 1: telemetry and partner setup
+com.google.android.feedback                 # "send feedback"
+com.google.android.partnersetup             # partner-app attribution
+com.google.android.onetimeinitializer       # one-time setup leftovers
+android.autoinstalls.config.google.gtvpai   # partner-app auto installer
+com.tcl.guard                               # TGuard: device-use tracking, memory cleaner
+
+# Group 2: TCL content, promos and recommendation rows
+com.tcl.channelplus                         # TCL Live FAST channels
+com.tcl.waterfall.overseas                  # TCL content "waterfall"
+com.tcl.partnercustomizer                   # TCL tweaks to the home rows
+com.tcl.dashboard                           # "TCL Home" panel, gift box, promos
+com.tcl.esticker                            # retail demo stickers
+com.tcl.tv.tclhome_passive                  # pushes TCL content at boot
+# com.tcl.notereminder                      # TCL notes/reminders: the firmware turns it back on at boot
+
+# Group 3: background services and preloads not needed
+com.tcl.useragreement                       # end-user agreement screens
+com.tcl.android.webview                     # unused, Google WebView is the provider
+com.google.android.syncadapters.calendar    # calendar sync
+com.google.android.apps.nbu.smartconnect.tv # Google data saver / VPN data meter
+com.tcl.ocean.instructions                  # e-manual
+com.tcl.gamebar                             # console game-mode overlay
+com.tcl.ui_mediaCenter                      # USB media centre; nothing on USB here
+com.tcl.browser                             # TCL browser
+com.google.android.marvin.talkback          # TalkBack
+
+# Group 4: preloaded streaming apps, owner's choice
+com.google.android.youtube.tv               # stock YouTube (SmartTube is used)
+com.amazon.amazonvideo.livingroom           # Prime Video
