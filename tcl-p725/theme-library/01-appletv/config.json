@@ -1,0 +1,20 @@
+{
+  "name": "Apple TV",
+  "background_color": "#000000",
+  "wallpaper": false,
+  "cinematic_home": true,
+  "icon_only_buttons": true,
+  "wifi_label_width": 200,
+  "advanced_effects": true,
+  "dock_apps": [
+    "com.youtube.armanych",
+    "com.vk.tv",
+    "ru.rt.video.app.tv",
+    "ru.kinopoisk.tv",
+    "ru.rutube.app",
+    "ru.twicker.lampa"
+  ],
+  "hidden_apps": [
+    "com.tcl.tv"
+  ]
+}

@@ -36,5 +36,17 @@ foreach ($theme in Get-ChildItem $lib -Directory) {
         if ($out -notmatch 'rc=0' -or $out -match 'Exception|Error') { throw "write of $name/$rel failed: $out" }
     }
 }
-& $py -I $tv 'ls -R /sdcard/Android/data/com.gathin.tvhome/files/themes 2>/dev/null | head -40'
+# Themes on the TV that are no longer in the library: delete their files through the provider, so they leave the list.
+$remote = '/sdcard/Android/data/com.gathin.tvhome/files/themes'
+$local = @(Get-ChildItem $lib -Directory | ForEach-Object Name)
+foreach ($old in (& $py -I $tv "ls -1 $remote 2>/dev/null") -split "\s+" | ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^[A-Za-z0-9_-]{1,40}$' }) {
+    if ($local -contains $old) { continue }
+    if (-not ((& $py -I $tv "ls $remote/$old/config.json 2>/dev/null") -join '')) { continue }   # already removed
+    $inner = @((& $py -I $tv "cd $remote/$old 2>/dev/null && ls -1 wallpapers 2>/dev/null") -split "\s+" |
+        ForEach-Object { $_.Trim() } | Where-Object { $_ -match '^[A-Za-z0-9_.-]+$' } | ForEach-Object { "wallpapers/$_" })
+    $inner += 'wallpaper.jpg', 'config.json'
+    foreach ($rel in $inner) { & $py -I $tv "content delete --uri $uri/$old/$rel 2>/dev/null" | Out-Null }
+    Write-Host "removed old theme $old"
+}
+& $py -I $tv "ls -R $remote 2>/dev/null | head -40"
 Write-Host 'Done. On the TV: Settings button (top right) > Theme.'

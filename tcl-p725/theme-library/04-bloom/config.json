@@ -1,0 +1,21 @@
+{
+  "name": "Цветок",
+  "background_color": "#050914",
+  "wallpaper": true,
+  "wallpaper_true_color": true,
+  "ambient_glow": false,
+  "app_glow": true,
+  "dock_opacity": 50,
+  "focus_overshoot": false,
+  "dock_apps": [
+    "com.youtube.armanych",
+    "com.vk.tv",
+    "ru.rt.video.app.tv",
+    "ru.kinopoisk.tv",
+    "ru.rutube.app",
+    "ru.twicker.lampa"
+  ],
+  "hidden_apps": [
+    "com.tcl.tv"
+  ]
+}

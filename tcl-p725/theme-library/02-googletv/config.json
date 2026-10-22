@@ -1,0 +1,22 @@
+{
+  "name": "Google TV",
+  "background_color": "#1B1C20",
+  "wallpaper": false,
+  "top_menu": true,
+  "dock_row": false,
+  "always_show_names": true,
+  "columns": 5,
+  "app_glow": true,
+  "glow_style": "horizon",
+  "dock_apps": [
+    "com.youtube.armanych",
+    "com.vk.tv",
+    "ru.rt.video.app.tv",
+    "ru.kinopoisk.tv",
+    "ru.rutube.app",
+    "ru.twicker.lampa"
+  ],
+  "hidden_apps": [
+    "com.tcl.tv"
+  ]
+}

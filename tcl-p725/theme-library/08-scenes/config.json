@@ -1,0 +1,18 @@
+{
+  "name": "Пейзажи",
+  "wallpaper": true,
+  "wallpaper_rotation_minutes": 60,
+  "ambient_glow": false,
+  "dock_opacity": 70,
+  "dock_apps": [
+    "com.youtube.armanych",
+    "com.vk.tv",
+    "ru.rt.video.app.tv",
+    "ru.kinopoisk.tv",
+    "ru.rutube.app",
+    "ru.twicker.lampa"
+  ],
+  "hidden_apps": [
+    "com.tcl.tv"
+  ]
+}
