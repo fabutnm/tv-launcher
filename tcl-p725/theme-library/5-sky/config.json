@@ -1,0 +1,17 @@
+{
+    "name":  "Небо",
+    "background_color":  "#000000",
+    "wallpaper":  false,
+    "sky_intensity":  60,
+    "dock_apps":  [
+                      "com.youtube.armanych",
+                      "com.vk.tv",
+                      "ru.rt.video.app.tv",
+                      "ru.kinopoisk.tv",
+                      "ru.rutube.app",
+                      "ru.twicker.lampa"
+                  ],
+    "hidden_apps":  [
+                        "com.tcl.tv"
+                    ]
+}

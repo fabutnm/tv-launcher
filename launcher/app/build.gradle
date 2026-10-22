@@ -11,8 +11,23 @@ android {
         applicationId providers.gradleProperty('launcherApplicationId').getOrElse('com.gathin.tvhome')
         minSdk 26
         targetSdk 34
-        versionCode 7
-        versionName '2.6'
+        // This fork's own numbering, based on cleanyourtv 2.6 (versionCode 7 upstream).
+        versionCode 1
+        versionName '1.0'
+    }
+
+    // Release key from the builder's own ~/.gradle/gradle.properties (RELEASE_STORE_FILE, RELEASE_STORE_PASSWORD,
+    // RELEASE_KEY_ALIAS, RELEASE_KEY_PASSWORD), never from the repo. Without them the build uses the debug key.
+    def releaseStore = providers.gradleProperty('RELEASE_STORE_FILE').getOrNull()
+    signingConfigs {
+        if (releaseStore != null) {
+            release {
+                storeFile file(releaseStore)
+                storePassword providers.gradleProperty('RELEASE_STORE_PASSWORD').get()
+                keyAlias providers.gradleProperty('RELEASE_KEY_ALIAS').get()
+                keyPassword providers.gradleProperty('RELEASE_KEY_PASSWORD').get()
+            }
+        }
     }
 
     buildTypes {
@@ -21,8 +36,7 @@ android {
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            // Sideloaded over ADB, never published: sign with the debug key so it installs over a debug build.
-            signingConfig signingConfigs.debug
+            signingConfig releaseStore != null ? signingConfigs.release : signingConfigs.debug
         }
     }
 

@@ -1,0 +1,59 @@
+# TCL P725 (reports as "Smart TV Pro", device BeyondTV4, product BeyondTV6, board RTD2851M, Realtek),
+# Android TV 11 (SDK 30), build RP1A.200622.001, software V8-R51MT02-LF1V344, 2 GB RAM. Russia, Wi-Fi.
+# Same platform as examples/tcl-55c725 and examples/tcl-65c725 (BeyondTV4, Android 11).
+#
+# Before this session: com.google.android.tvlauncher, com.tcl.gallery and the uk.co.freeview.* apps were
+# already disabled, and Projectivy Launcher (com.spocky.projengmenu) was Home. Density was overridden to 480
+# (physical 320).
+#
+# Apply:   tools\disable.ps1 -TvHost <tv ip> tcl-p725\debloat.txt   (or one group at a time, screenshot between)
+# Undo:    tcl-p725\restore-p725.ps1 -TvHost <tv ip>
+# Everything is DISABLED, never uninstalled.
+#
+# Kept (load-bearing): com.tcl.tv com.tcl.tvinput (Live TV, tuner, HDMI), com.tcl.system.server (remote keys),
+# com.tcl.common.shortcutmenu (custom remote keys, quick start), com.tcl.tcl_bt_rcu_service com.tcl.autopair
+# com.google.android.tv.remote.service (remote and Bluetooth pairing), com.tcl.inputmethod.international
+# com.google.android.inputmethod.latin (keyboards), com.tcl.settings com.android.tv.settings, com.tcl.providers.config
+# com.tcl.initsetup com.tcl.factory.view (Wi-Fi/provisioning), com.tcl.xian.StartandroidService (device auth),
+# com.android.vending com.google.android.gms com.google.android.gsf (Play), com.tcl.t_solo (BT "listen alone"),
+# com.google.android.apps.mediashell (Chromecast, in use), com.google.android.backdrop (screensaver).
+
+# Batch 1: telemetry and analytics
+com.tcl.bi                                  # TCL BI analytics
+com.google.android.feedback                 # "send feedback"
+com.google.android.partnersetup             # partner-app attribution
+com.google.android.onetimeinitializer       # one-time setup leftovers
+android.autoinstalls.config.tcl.device      # partner-app auto installer
+com.tcl.usercenter                          # TCL account / user center
+
+# Batch 2: content, promos and recommendation rows
+com.google.android.tvrecommendations        # home-screen recommendation rows
+com.tcl.dashboard                           # TCL dashboard / promo backend
+com.tcl.messagebox                          # TCL message/promo box
+com.tcl.esticker                            # retail demo stickers
+com.tcl.overseasappshow                     # "recommended apps" showcase
+com.tcl.tv.tclhome_passive                  # pushes TCL content at boot
+com.tcl.notereminder                        # TCL notes/reminders
+
+# Batch 3: background services not needed
+com.tcl.guard                               # TCL online support / cleaner
+com.tcl.keyhelp                             # remote-key help overlays
+com.tcl.useragreement                       # end-user agreement screens
+com.tcl.android.webview                     # unused, Google WebView is the provider
+org.chromium.webview_shell                  # AOSP WebView test browser
+com.google.android.syncadapters.calendar    # calendar sync
+com.google.android.apps.nbu.smartconnect.tv # Google data saver / VPN data meter
+
+# Batch 4: voice, off by choice (the mic button stops working)
+com.google.android.katniss                  # Google voice search
+com.tcl.assistant                           # TCL Google Assistant bridge
+com.tcl.micmanager                          # remote microphone manager
+com.google.android.tv.assistant             # Assistant LED service
+com.tcl.smartalexa                          # Alexa
+
+# Batch 5: screen mirroring, stock YouTube and updaters, off by choice
+com.tcl.miracast                            # Miracast
+com.tcl.MultiScreenInteraction_TV           # TCL T-Cast
+com.google.android.youtube.tv               # stock YouTube
+com.tcl.versionUpdateApp                    # TCL firmware updater: firmware stays on LF1V344
+com.tcl.externaldevice.update               # remote / soundbar firmware updater

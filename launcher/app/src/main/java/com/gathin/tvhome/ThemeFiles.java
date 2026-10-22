@@ -15,6 +15,13 @@ final class ThemeFiles {
     /** The path relative to the theme directory, e.g. "config.json" or "wallpapers/dusk.jpg", or null if refused. */
     static String path(List<String> segments) {
         if (segments == null) return null;
+        // A theme kept in the on-TV library (ThemeLibrary): the same files, one folder down.
+        if (segments.size() >= 3 && ThemeLibrary.DIR.equals(segments.get(0))
+                && ThemeLibrary.validName(segments.get(1))) {
+            String inner = path(segments.subList(2, segments.size()));
+            return inner == null || Config.THEME_REVISION_NAME.equals(inner) ? null
+                    : ThemeLibrary.DIR + "/" + segments.get(1) + "/" + inner;
+        }
         if (segments.size() == 1) {
             String name = segments.get(0);
             return Config.FILE_NAME.equals(name) || "wallpaper.jpg".equals(name) || "theme_revision".equals(name)
