@@ -87,6 +87,7 @@ is ignored, and a file that doesn't parse is ignored as a whole, so a theme can 
 | `greeting` | string | Replaces the time-of-day greeting while the festive skin is on |
 | `accent_color` | `#RRGGBB` | Colour of the focus glow while the festive skin is on; diya gold if not set |
 | `settings_key_keycodes` | list of keycodes | Remote buttons that open Settings, for `HomeKeyService` (TCL Google TV gear: `[83]`) |
+| `quick_picture_intent`, `quick_sound_intent` | string | With `settings_key_panel`: the panel's Picture row starts this intent URI (prefix `service:` for a service) and a Sound row appears for the second, e.g. TCL's own panels on G05 Google TV: `service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=tvset_zhuanye;i.flag=1;end` (picture), `S.Type=gaojisheding` (sound); empty by default |
 | `settings_key_panel` | bool | Those buttons open a small quick settings panel (TV settings, Display, Network, Apps, Launcher settings) instead of the TV's Settings |
 | `restore_key_services` | bool | After a force stop of the launcher, Home puts the remote's accessibility helpers (`HomeKeyService`, `InputKeyService`) back on the enabled list; needs `RESTORE_KEY_SERVICES=1` at install. Off by default |
 | `input_key_keycodes` | list of keycodes | More remote buttons that open the input switcher, for `InputKeyService` (`KEYCODE_TV` and `KEYCODE_TV_INPUT` always do) |

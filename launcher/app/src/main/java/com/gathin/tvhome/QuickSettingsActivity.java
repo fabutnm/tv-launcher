@@ -26,7 +26,13 @@ public final class QuickSettingsActivity extends Activity {
         findViewById(R.id.scrim).setOnClickListener(v -> finish());
         LinearLayout rows = findViewById(R.id.rows);
         addRow(rows, R.drawable.ic_settings, R.string.tv_settings, 0, SystemSettings.intent(this, Settings.ACTION_SETTINGS));
-        addRow(rows, R.drawable.ic_picture, R.string.quick_picture, 0, SystemSettings.intent(this, Settings.ACTION_DISPLAY_SETTINGS));
+        Config config = Config.load(this);
+        if (config.quickPictureIntent.isEmpty()) {
+            addRow(rows, R.drawable.ic_picture, R.string.quick_picture, 0, SystemSettings.intent(this, Settings.ACTION_DISPLAY_SETTINGS));
+        } else {
+            addCustomRow(rows, R.drawable.ic_picture, R.string.quick_picture, config.quickPictureIntent);
+        }
+        if (!config.quickSoundIntent.isEmpty()) addCustomRow(rows, R.drawable.ic_sound, R.string.quick_sound, config.quickSoundIntent);
         addRow(rows, R.drawable.ic_wifi, R.string.quick_network, 0, SystemSettings.intent(this, Settings.ACTION_WIFI_SETTINGS));
         addRow(rows, R.drawable.ic_apps, R.string.quick_apps, R.string.quick_apps_hint,
                 SystemSettings.intent(this, Settings.ACTION_MANAGE_APPLICATIONS_SETTINGS));
@@ -49,6 +55,15 @@ public final class QuickSettingsActivity extends Activity {
         super.onPause();
         finish();
         overridePendingTransition(0, 0);
+    }
+
+    /** A row that starts a configured intent URI (RemoteKeys.startCustom): the TV maker's own picture or sound panel. */
+    private void addCustomRow(LinearLayout rows, int icon, int title, String uri) {
+        addRow(rows, icon, title, 0, null);
+        rows.getChildAt(rows.getChildCount() - 1).setOnClickListener(v -> {
+            if (!RemoteKeys.startCustom(this, uri)) Toast.makeText(this, R.string.not_available, Toast.LENGTH_SHORT).show();
+            finish();
+        });
     }
 
     private void addRow(LinearLayout rows, int icon, int title, int status, Intent target) {

@@ -153,6 +153,28 @@ final class RemoteKeys {
         return id.isEmpty() ? null : id;
     }
 
+    /**
+     * Starts a configured intent URI (Intent.URI_INTENT_SCHEME, as {@code Intent.toUri} writes it); with a "service:"
+     * prefix it is a service, else an activity. False when nothing is configured or it cannot be started, so the caller
+     * falls back to its default.
+     */
+    static boolean startCustom(Context ctx, String uri) {
+        if (uri == null || uri.isEmpty()) return false;
+        boolean service = uri.startsWith("service:");
+        try {
+            Intent intent = Intent.parseUri(service ? uri.substring("service:".length()) : uri, Intent.URI_INTENT_SCHEME);
+            if (service) {
+                ctx.startService(intent);
+            } else {
+                ctx.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            }
+            return true;
+        } catch (java.net.URISyntaxException | RuntimeException e) {
+            android.util.Log.w("RemoteKeys", "intent not started: " + uri + ": " + e);
+            return false;
+        }
+    }
+
     /** Opens an app from a remote button: its TV entry if it has one, else its phone entry. An "input:<id>" target
      *  switches to that TV input (an HDMI port) instead. */
     static void launch(Context ctx, String pkg) {
