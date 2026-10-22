@@ -123,13 +123,7 @@ public final class LauncherSettingsActivity extends Activity {
                         .show();
             }
         });
-        LinearLayout features = findViewById(R.id.featureRows);
-        addSwitch(features, R.string.feature_cinematic, Config.CINEMATIC_KEY, config.cinematicHome);
-        addSwitch(features, R.string.feature_sky, Config.SKY_KEY, config.skyIntensity > 0);
-        addSwitch(features, R.string.feature_true_color, Config.TRUE_COLOR_KEY, config.wallpaperTrueColor);
-        addSwitch(features, R.string.feature_all_names, Config.ALL_NAMES_KEY, config.alwaysShowNames);
-        addSwitch(features, R.string.feature_library, Config.LIBRARY_KEY, config.appLibrary);
-        addClockRow(features, config.homeIdleClockMinutes);
+        buildFeatureRows(config);
         followThemeChoice = findViewById(R.id.followThemeChoice);
         followThemeChoice.setOnClickListener(v -> {
             if (!hasOnTvChoices()) return;
@@ -146,7 +140,8 @@ public final class LauncherSettingsActivity extends Activity {
             animations = current.animations;
             advancedEffects = current.animations && current.advancedEffects;
             setResult(RESULT_OK);
-            recreate();   // the switch rows show the theme's values again
+            buildFeatureRows(current);   // the switch rows show the theme's values again
+            refresh();
         });
         findViewById(R.id.defaultHomeChoice).setOnClickListener(v -> {
             Toast.makeText(this, R.string.home_settings_help, Toast.LENGTH_LONG).show();
@@ -157,6 +152,18 @@ public final class LauncherSettingsActivity extends Activity {
         refresh();
         if (config.launcherSettingsButton) reorderChoice.requestFocus();
         else columnChoices[Math.max(0, Math.min(columns - 4, 3))].requestFocus();
+    }
+
+    /** The look-and-feel switch rows, showing the saved choice or else what the theme (config) decides. */
+    private void buildFeatureRows(Config config) {
+        LinearLayout features = findViewById(R.id.featureRows);
+        features.removeAllViews();
+        addSwitch(features, R.string.feature_cinematic, Config.CINEMATIC_KEY, config.cinematicHome);
+        addSwitch(features, R.string.feature_sky, Config.SKY_KEY, config.skyIntensity > 0);
+        addSwitch(features, R.string.feature_true_color, Config.TRUE_COLOR_KEY, config.wallpaperTrueColor);
+        addSwitch(features, R.string.feature_all_names, Config.ALL_NAMES_KEY, config.alwaysShowNames);
+        addSwitch(features, R.string.feature_library, Config.LIBRARY_KEY, config.appLibrary);
+        addClockRow(features, config.homeIdleClockMinutes);
     }
 
     /** One On/Off row for a look-and-feel switch; saved at once, Home rebuilds when settings close. */
@@ -247,6 +254,7 @@ public final class LauncherSettingsActivity extends Activity {
         advancedEffects = current.animations && current.advancedEffects;
         setResult(RESULT_OK);
         Toast.makeText(this, R.string.theme_applied, Toast.LENGTH_SHORT).show();
+        buildFeatureRows(current);
         refresh();
     }
 

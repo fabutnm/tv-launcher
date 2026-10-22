@@ -41,7 +41,7 @@ final class Config {
     static final String WALLPAPER_CHOICE_KEY = "wallpaper_choice";
     static final String DOCK_OPACITY_KEY = "dock_opacity";
     static final String THEME_REVISION_NAME = "theme_revision";
-    /** Launcher settings' look-and-feel switches (see load()); kept across theme changes. */
+    /** Launcher settings' look-and-feel switches (see load()); cleared by a theme change. */
     static final String CINEMATIC_KEY = "cinematic_home", TRUE_COLOR_KEY = "wallpaper_true_color",
             ALL_NAMES_KEY = "always_show_names", LIBRARY_KEY = "app_library", SKY_KEY = "sky",
             IDLE_CLOCK_KEY = "home_idle_clock_minutes";
@@ -420,8 +420,8 @@ final class Config {
         if (chosenRows >= 0 && chosenRows <= 3) rowsBelow = chosenRows;
         animations = choices.getBoolean("animations", animations);
         advancedEffects = choices.getBoolean("advanced_effects", advancedEffects);
-        // Look-and-feel switches from Launcher settings. Personal choices: unlike the layout ones above, a theme
-        // change keeps them; only Follow theme clears them (FEATURE_KEYS).
+        // Look-and-feel switches from Launcher settings: they adjust the current theme, and like the layout choices
+        // above a theme change or Follow theme clears them (FEATURE_KEYS), so every theme shows as designed.
         cinematic = choices.getBoolean(CINEMATIC_KEY, cinematic);
         wallpaperTrueColor = choices.getBoolean(TRUE_COLOR_KEY, wallpaperTrueColor);
         alwaysShowNames = choices.getBoolean(ALL_NAMES_KEY, alwaysShowNames);
@@ -530,9 +530,11 @@ final class Config {
                     .remove(DOCK_OPACITY_KEY);
             editor.putString(THEME_SIGNATURE_KEY, signature).commit();
         } else if (!seen.equals(signature)) {
-            choices.edit().remove("columns").remove("animations").remove("advanced_effects")
-                    .remove(ROWS_BELOW_DOCK_KEY).remove(WALLPAPER_CHOICE_KEY).remove(DOCK_OPACITY_KEY)
-                    .putString(THEME_SIGNATURE_KEY, signature).commit();
+            SharedPreferences.Editor editor = choices.edit().remove("columns").remove("animations")
+                    .remove("advanced_effects").remove(ROWS_BELOW_DOCK_KEY).remove(WALLPAPER_CHOICE_KEY)
+                    .remove(DOCK_OPACITY_KEY);
+            for (String key : FEATURE_KEYS) editor.remove(key);
+            editor.putString(THEME_SIGNATURE_KEY, signature).commit();
         }
     }
 

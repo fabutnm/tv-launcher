@@ -1,0 +1,28 @@
+{
+  "name": "Material",
+  "background_color": "#0B1416",
+  "wallpaper": true,
+  "wallpaper_true_color": true,
+  "ambient_glow": false,
+  "always_show_names": true,
+  "rows_below_dock": 1,
+  "columns": 5,
+  "dock_opacity": 70,
+  "dock_apps": [
+    "com.youtube.armanych",
+    "com.vk.tv",
+    "top.rootu.lampa",
+    "ru.yourok.num",
+    "ru.kinopoisk.tv",
+    "io.github.fabutnm.homepanel"
+  ],
+  "hidden_apps": [
+    "com.tcl.tv"
+  ],
+  "settings_key_keycodes": [
+    4077
+  ],
+  "settings_key_panel": true,
+  "quick_picture_intent": "service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=tvset_zhuanye;i.flag=1;end",
+  "quick_sound_intent": "service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=gaojisheding;i.flag=1;end"
+}

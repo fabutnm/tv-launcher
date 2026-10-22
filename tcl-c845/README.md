@@ -11,7 +11,7 @@ Android 11 (SDK 30), отпечаток `TCL/G05_4K_GB/G05:11/AR2101/AR28`, 2,7 
 | Файл | Что делает |
 |---|---|
 | `debloat.txt` | 22 пакета: телеметрия Google и TCL Guard, промо и рекомендации TCL, лишние службы и предустановки, стоковый YouTube и Prime Video. Голос, Chromecast, AirPlay, Miracast, T-Cast и обновления оставлены. |
-| `push-theme-library.ps1` | Заливает темы из `theme-library\` (док этого ТВ: YouTube, VK Видео, Wink, Кинопоиск, Okko, Lampa). |
+| `push-theme-library.ps1` | Заливает темы из `theme-library\` и убирает с ТВ темы, которых там больше нет. Десять тем: Apple TV (полка-обложка), Google TV (меню-шестерёнка, сетка без дока), Дюны, Цветок, Material, Неон, Сияние (свои обои, `tools/style_wallpapers.py`), Пейзажи, Небо, OLED (минимум, без анимаций). Док во всех: YouTube, VK Видео, Lampa, NUM, Кинопоиск, Дом. |
 | `restore.ps1` | Включает пакеты обратно, возвращает Projectivy, удаляет лаунчер и «Дом». |
 
 ## Порядок

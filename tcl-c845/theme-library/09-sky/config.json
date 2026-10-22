@@ -2,14 +2,14 @@
     "name":  "Небо",
     "background_color":  "#000000",
     "wallpaper":  false,
-    "sky_intensity":  60,
+    "sky_intensity":  85,
     "dock_apps":  [
                       "com.youtube.armanych",
                       "com.vk.tv",
-                      "ru.rt.video.app.tv",
+                      "top.rootu.lampa",
+                      "ru.yourok.num",
                       "ru.kinopoisk.tv",
-                      "ru.more.play",
-                      "top.rootu.lampa"
+                      "io.github.fabutnm.homepanel"
                   ],
     "hidden_apps":  [
                         "com.tcl.tv"
@@ -19,5 +19,6 @@
                               ],
     "settings_key_panel":  true,
     "quick_picture_intent":  "service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=tvset_zhuanye;i.flag=1;end",
-    "quick_sound_intent":  "service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=gaojisheding;i.flag=1;end"
+    "quick_sound_intent":  "service:intent:#Intent;action=com.tcl.settings.SHOW_WINDOW;component=com.tcl.settings/.ShowWindowService;S.Type=gaojisheding;i.flag=1;end",
+    "ambient_glow":  false
 }
